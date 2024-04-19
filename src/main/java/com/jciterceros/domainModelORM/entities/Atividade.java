@@ -2,10 +2,7 @@ package com.jciterceros.domainModelORM.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_atividade")
@@ -25,7 +22,8 @@ public class Atividade {
     @ManyToOne //Uma Atividade pertence a uma Categoria
     private Categoria categoria;
 
-    @ManyToMany(mappedBy = "atividades") //Um Participante pode ter varias Atividades e uma Atividade pode ter varios Participantes
+    @ManyToMany(mappedBy = "atividades")
+    //Um Participante pode ter varias Atividades e uma Atividade pode ter varios Participantes
     private Set<Participante> participantes = new HashSet<>();
 
     public Atividade() {
@@ -85,5 +83,31 @@ public class Atividade {
 
     public List<Bloco> getBlocos() {
         return blocos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Atividade atividade = (Atividade) o;
+        return Objects.equals(id, atividade.id) && Objects.equals(nome, atividade.nome) && Objects.equals(descricao, atividade.descricao) && Objects.equals(preco, atividade.preco) && Objects.equals(blocos, atividade.blocos) && Objects.equals(categoria, atividade.categoria) && Objects.equals(participantes, atividade.participantes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, descricao, preco, blocos, categoria, participantes);
+    }
+
+    @Override
+    public String toString() {
+        return "Atividade {" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                ", blocos=" + blocos +
+                ", categoria=" + categoria +
+                ", participantes=" + participantes +
+                '}';
     }
 }
